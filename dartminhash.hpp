@@ -11,6 +11,8 @@
 #include "hashing.hpp"
 #include "darthash.hpp"
 
+namespace dmh {
+
 class DartMinHash {
 
 	private:
@@ -59,5 +61,7 @@ class DartMinHash {
             return sketch;
         }
 };
+
+} // namespace dmh
 
 #endif

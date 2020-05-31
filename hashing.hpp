@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <random>
 
+namespace dmh {
+
  double to_unit(uint64_t x) {
     return (double)x/0xFFFFFFFFFFFFFFFFull;
 }
@@ -95,5 +97,7 @@ class TabulationHashFunction32 {
 			return hashvalue;
 		}
 };
+
+} // namespace dmh
 
 #endif

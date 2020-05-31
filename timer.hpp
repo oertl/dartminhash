@@ -6,6 +6,8 @@
 #include <chrono>
 #include <iomanip>
 
+namespace dmh {
+
 struct Timer {
 	std::string name;
 	std::chrono::nanoseconds elapsed;
@@ -50,5 +52,7 @@ struct Timer {
 		std::cout << name << ": " << elapsed_s() << " (s)" << std::endl;
 	}
 };
+
+} // namespace dmh
 
 #endif

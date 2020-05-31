@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include <algorithm>
 
+namespace dmh {
+
 // Generate random histograms by first picking m entries randomly to have nonzero weights, and then sorting m - 1 uniformly distributed variables between zero and one. 
 // Assign weights as the gaps in sorted order.
 
@@ -68,5 +70,7 @@ std::vector<std::pair<uint64_t, double>> generate_weighted_set(uint64_t L0, doub
     y.push_back({j, excess_weight});
     return y;
 }
+
+} // namespace dmh
 
 #endif

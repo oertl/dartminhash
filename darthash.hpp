@@ -10,6 +10,8 @@
 #include "similarity.hpp"
 #include "hashing.hpp"
 
+namespace dmh {
+
 class DartHash {
 
 	private:
@@ -132,5 +134,7 @@ class DartHash {
             return sketch;
         }
 };
+
+} // namespace dmh
 
 #endif

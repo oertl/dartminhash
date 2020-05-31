@@ -12,6 +12,7 @@
 #include "bagminhash_wrappers.hpp"
 
 using namespace std;
+using namespace dmh;
 
 template <typename T>
 double time_algorithm(const vector<vector<pair<uint64_t, double>>>& data, T& hasher, uint64_t& id_xor, double& rank_sum) {

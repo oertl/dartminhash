@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <cmath>
 
+namespace dmh {
+
 double weight(const std::vector<std::pair<uint64_t, double>>&  x) {
     double w = 0;
     for(const std::pair<uint64_t, double>& v : x) {
@@ -89,5 +91,7 @@ uint64_t count_collisions(const std::vector<std::pair<uint64_t, double>>& x, con
 double jaccard_estimate_from_minhashes(const std::vector<std::pair<uint64_t, double>>& x, const std::vector<std::pair<uint64_t, double>>& y) {
 	return (double)count_collisions(x, y)/x.size();
 }
+
+} // namespace dmh
 
 #endif

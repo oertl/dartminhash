@@ -9,6 +9,8 @@
 
 #include "hashing.hpp"
 
+namespace dmh {
+
 // see Ioffe, Sergey. "Improved consistent sampling, weighted minhash and l1 sketching." Data Mining (ICDM), 2010 IEEE 10th International Conference on. IEEE, 2010.
 class ICWS {
 
@@ -169,5 +171,6 @@ class FastICWS_t {
 		}
 };
 
+} // namespace dmh
 
 #endif

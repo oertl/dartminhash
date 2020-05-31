@@ -7,6 +7,8 @@
 #include <vector>
 #include "bagminhash/weighted_minwise_hashing.hpp"
 
+namespace dmh {
+
 std::vector<std::pair<uint64_t, double>> weightedhashresult_to_pairs(WeightedHashResult res) {
     std::vector<std::pair<uint64_t, double>> output;
     for(uint64_t h : res.hashValues) {
@@ -60,5 +62,7 @@ class ICWS_xxhash {
             return weightedhashresult_to_pairs(res);
         }
 };
+
+} // namespace dmh
 
 #endif

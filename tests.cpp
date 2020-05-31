@@ -10,6 +10,7 @@
 #include "bagminhash_wrappers.hpp"
 
 using namespace std;
+using namespace dmh;
 
 TEST_CASE("Randomly generated weighted sets behave as expected", "[datagenerator]") {
     SECTION("Size and weight") {
