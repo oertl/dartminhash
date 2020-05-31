@@ -6,16 +6,14 @@
 #include <chrono>
 #include <iomanip>
 
-using namespace std;
-
 struct Timer {
-	string name;
-	chrono::nanoseconds elapsed;
-	chrono::high_resolution_clock::time_point start_time; 
+	std::string name;
+	std::chrono::nanoseconds elapsed;
+	std::chrono::high_resolution_clock::time_point start_time; 
 
 	Timer() : Timer("Timer") {}
-	Timer(string name) : name(name) {
-		elapsed = chrono::nanoseconds(0);
+	Timer(std::string name) : name(name) {
+		elapsed = std::chrono::nanoseconds(0);
 	}
 
 	void start() {
@@ -27,7 +25,7 @@ struct Timer {
 	}
 
 	void reset() {
-		elapsed = chrono::nanoseconds(0);
+		elapsed = std::chrono::nanoseconds(0);
 	}
 
 	double elapsed_s() {
@@ -43,13 +41,13 @@ struct Timer {
 	}
 
 	void print_ms() {
-		cout << fixed << setprecision(2);
-		cout << name << ": " << elapsed_ms() << " (ms)" << endl;
+		std::cout << std::fixed << std::setprecision(2);
+		std::cout << name << ": " << elapsed_ms() << " (ms)" << std::endl;
 	}
 
 	void print_s() {
-		cout << fixed << setprecision(2);
-		cout << name << ": " << elapsed_s() << " (s)" << endl;
+		std::cout << std::fixed << std::setprecision(2);
+		std::cout << name << ": " << elapsed_s() << " (s)" << std::endl;
 	}
 };
 

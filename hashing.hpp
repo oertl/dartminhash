@@ -4,8 +4,6 @@
 #include <cstdint>
 #include <random>
 
-using namespace std;
-
  double to_unit(uint64_t x) {
     return (double)x/0xFFFFFFFFFFFFFFFFull;
 }
@@ -15,7 +13,7 @@ using namespace std;
 }
 
 // Convert a 64-bit uint to two doubles by splitting it in two and normalizing each 32-bit part
- pair<double, double> to_units(uint64_t x) {
+ std::pair<double, double> to_units(uint64_t x) {
     return { 
         ((double)(x >> 32))/0xFFFFFFFFul,
         (double)(x & 0xFFFFFFFFull)/0xFFFFFFFFul
@@ -36,7 +34,7 @@ class TabulationHashFunction {
 		uint64_t T8[256];
 
 	public:
-		TabulationHashFunction(mt19937_64& rng) {
+		TabulationHashFunction(std::mt19937_64& rng) {
 			for(int i = 0; i < 256; i++) {
 				T1[i] = rng();
 				T2[i] = rng();
@@ -62,7 +60,7 @@ class TabulationHashFunction8 {
 		uint64_t T1[256];
 
 	public:
-		TabulationHashFunction8(mt19937_64& rng) {
+		TabulationHashFunction8(std::mt19937_64& rng) {
 			for(int i = 0; i < 256; i++) {
 				T1[i] = rng();
 			}
@@ -83,7 +81,7 @@ class TabulationHashFunction32 {
 		uint64_t T4[256];
 
 	public:
-		TabulationHashFunction32(mt19937_64& rng) {
+		TabulationHashFunction32(std::mt19937_64& rng) {
 			for(int i = 0; i < 256; i++) {
 				T1[i] = rng();
 				T2[i] = rng();

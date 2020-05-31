@@ -9,8 +9,6 @@
 
 #include "hashing.hpp"
 
-using namespace std;
-
 // see Ioffe, Sergey. "Improved consistent sampling, weighted minhash and l1 sketching." Data Mining (ICDM), 2010 IEEE 10th International Conference on. IEEE, 2010.
 class ICWS {
 
@@ -18,15 +16,15 @@ class ICWS {
 		TabulationHashFunction T1, T2, T3, T4, T5;
 
 	public:
-		ICWS(mt19937_64& rng) : T1(rng), T2(rng), T3(rng), T4(rng), T5(rng) {}
+		ICWS(std::mt19937_64& rng) : T1(rng), T2(rng), T3(rng), T4(rng), T5(rng) {}
 
-		pair<uint64_t, double> operator()(const vector<pair<uint64_t, double>>& x) {
+		std::pair<uint64_t, double> operator()(const std::vector<std::pair<uint64_t, double>>& x) {
 		
-			double a_star = numeric_limits<double>::max();
+			double a_star = std::numeric_limits<double>::max();
 			uint64_t k_star = 0;
 			double y_star = 0;
 
-			for(const pair<uint64_t, double>& element : x) {
+			for(const std::pair<uint64_t, double>& element : x) {
 				uint64_t k = element.first;
 				double S_k = element.second;
 				double r_u1 = to_unit(T1(k));
@@ -47,24 +45,24 @@ class ICWS {
 				}
 			}
 			
-			return pair<uint64_t, double>(k_star, y_star);
+			return std::pair<uint64_t, double>(k_star, y_star);
 		}
 };
 
 class ICWS_t {
 	private:
 		uint64_t t;
-		vector<ICWS> M;
+		std::vector<ICWS> M;
 		
 	public:
-		ICWS_t(mt19937_64& rng, uint64_t t) : t(t) {
+		ICWS_t(std::mt19937_64& rng, uint64_t t) : t(t) {
 			for(uint64_t i = 0; i < t; i++) {
 				M.push_back(ICWS(rng));
 			}
 		}
 		
-		vector<pair<uint64_t, double>> operator()(const vector<pair<uint64_t, double>>& x) {
-			vector<pair<uint64_t, double>> minhashes;
+		std::vector<std::pair<uint64_t, double>> operator()(const std::vector<std::pair<uint64_t, double>>& x) {
+			std::vector<std::pair<uint64_t, double>> minhashes;
 			for(uint64_t i = 0; i < t; i++) {
 				minhashes.push_back((M[i])(x));
 			}
@@ -79,21 +77,21 @@ class FastICWS {
 
 	private:
 		TabulationHashFunction T1, T2, T3;
-		const vector<double>& gamma;
-		const vector<double>& gamma_inv;
-		const vector<double>& log_gamma;
+		const std::vector<double>& gamma;
+		const std::vector<double>& gamma_inv;
+		const std::vector<double>& log_gamma;
 
 	public:
-		FastICWS(mt19937_64& rng, const vector<double>& gamma, const vector<double>& gamma_inv, const vector<double>& log_gamma) 
+		FastICWS(std::mt19937_64& rng, const std::vector<double>& gamma, const std::vector<double>& gamma_inv, const std::vector<double>& log_gamma) 
 			: T1(rng), T2(rng), T3(rng), gamma(gamma), gamma_inv(gamma_inv), log_gamma(log_gamma) {}
 
-		pair<uint64_t, double> operator()(const vector<pair<uint64_t, double>>& log_weight_x) {
+		std::pair<uint64_t, double> operator()(const std::vector<std::pair<uint64_t, double>>& log_weight_x) {
 		
 			const uint64_t MASK16 = 0xFFFFull;
-			double log_a_star = numeric_limits<double>::max();
+			double log_a_star = std::numeric_limits<double>::max();
 			uint64_t minhash = 0;
 
-			for(const pair<uint64_t, double>& element : log_weight_x) {
+			for(const std::pair<uint64_t, double>& element : log_weight_x) {
 				uint64_t k = element.first;
 				double log_S_k = element.second;
 
@@ -113,20 +111,20 @@ class FastICWS {
 				}
 			}
 			
-			return pair<uint64_t, double>(minhash, log_a_star);
+			return std::pair<uint64_t, double>(minhash, log_a_star);
 		}
 };
 
 class FastICWS_t {
 	private:
 		uint64_t t;
-		vector<FastICWS> M;
-		vector<double> gamma;
-		vector<double> gamma_inv;
-		vector<double> log_gamma;
+		std::vector<FastICWS> M;
+		std::vector<double> gamma;
+		std::vector<double> gamma_inv;
+		std::vector<double> log_gamma;
 		
 	public:
-		FastICWS_t(mt19937_64& rng, uint64_t t) : t(t) {
+		FastICWS_t(std::mt19937_64& rng, uint64_t t) : t(t) {
 
 			// Create discretized version of the X ~ Gamma(2,1) distribution
 			// pdf: z*exp(-z)
@@ -158,12 +156,12 @@ class FastICWS_t {
 			}
 		}
 		
-		vector<pair<uint64_t, double>> operator()(const vector<pair<uint64_t, double>>& x) {
-			vector<pair<uint64_t, double>> log_weight_x;
+		std::vector<std::pair<uint64_t, double>> operator()(const std::vector<std::pair<uint64_t, double>>& x) {
+			std::vector<std::pair<uint64_t, double>> log_weight_x;
 			for(auto element : x) {
 				log_weight_x.push_back({element.first, log(element.second)});
 			}
-			vector<pair<uint64_t, double>> minhashes;
+			std::vector<std::pair<uint64_t, double>> minhashes;
 			for(uint64_t i = 0; i < t; i++) {
 				minhashes.push_back((M[i])(log_weight_x));
 			}

@@ -10,20 +10,18 @@
 #include "similarity.hpp"
 #include "hashing.hpp"
 
-using namespace std;
-
 class DartHash {
 
 	private:
 		uint64_t t;
         TabulationHashFunction32 T_nu, T_rho, T_w, T_r;
         TabulationHashFunction T_i, T_p, T_q, F, M;
-        vector<double> powers_of_two;
-        vector<double> negative_powers_of_two;
-        vector<double> poisson_cdf;
+        std::vector<double> powers_of_two;
+        std::vector<double> negative_powers_of_two;
+        std::vector<double> poisson_cdf;
         
 	public:
-		DartHash(mt19937_64& rng, uint64_t t) : t(t), T_nu(rng), T_rho(rng), T_w(rng), T_r(rng), T_i(rng), T_p(rng), T_q(rng), F(rng), M(rng) {
+		DartHash(std::mt19937_64& rng, uint64_t t) : t(t), T_nu(rng), T_rho(rng), T_w(rng), T_r(rng), T_i(rng), T_p(rng), T_q(rng), F(rng), M(rng) {
             
             // Tabulate positive and negative powers of two
             double p = 1.0;
@@ -46,14 +44,14 @@ class DartHash {
             }
         };
 
-        vector<pair<uint64_t, double>> operator()(const vector<pair<uint64_t, double>>& x, double theta = 1.0) {
-            vector<pair<uint64_t, double>> darts;
+        std::vector<std::pair<uint64_t, double>> operator()(const std::vector<std::pair<uint64_t, double>>& x, double theta = 1.0) {
+            std::vector<std::pair<uint64_t, double>> darts;
             darts.reserve(2*t);
             double max_rank = theta/weight(x);
             double t_inv = 1.0/t;
             uint32_t RHO = (uint32_t)floor(log2(1.0 + max_rank));
 
-            for(const pair<uint64_t, double>& element : x) {
+            for(const std::pair<uint64_t, double>& element : x) {
                 uint64_t i = element.first;
                 double xi = element.second;
                 uint64_t i_hash = T_i(i);
@@ -113,9 +111,9 @@ class DartHash {
 
 
         // Convert the t darts to k minhashes by hashing the darts to k buckets and keeping the minimum from each bucket
-        vector<pair<uint64_t, double>> minhash(const vector<pair<uint64_t, double>>& x, uint64_t k) { 
+        std::vector<std::pair<uint64_t, double>> minhash(const std::vector<std::pair<uint64_t, double>>& x, uint64_t k) { 
             auto darts = (*this)(x);
-            vector<pair<uint64_t, double>> minhashes(k, {0, numeric_limits<double>::max()});
+            std::vector<std::pair<uint64_t, double>> minhashes(k, {0, std::numeric_limits<double>::max()});
             for(auto& dart : darts) {
                 uint64_t j = M(dart.first) % k;
                 if(dart.second < minhashes[j].second) {
@@ -125,8 +123,8 @@ class DartHash {
             return minhashes;
         }
 
-        vector<bool> onebit_minhash(const vector<pair<uint64_t, double>>& x, uint64_t k) { 
-            vector<bool> sketch(k, false);
+        std::vector<bool> onebit_minhash(const std::vector<std::pair<uint64_t, double>>& x, uint64_t k) { 
+            std::vector<bool> sketch(k, false);
             auto minhashes = minhash(x, k);
             for(uint64_t i = 0; i < k; i++) {
                 sketch[i] = ((minhashes[i].first & 1ull) == 1ull); // use first bit of MinHash id  

@@ -11,8 +11,6 @@
 #include "hashing.hpp"
 #include "darthash.hpp"
 
-using namespace std;
-
 class DartMinHash {
 
 	private:
@@ -22,14 +20,14 @@ class DartMinHash {
         
 	public:
         // Set t = k ln(k) + 2k so the probability of failing on the first run is at most exp(-2)
-		DartMinHash(mt19937_64& rng, uint64_t k) : k(k), T(rng), D(rng, ceil(k*log(k) + 2*k)) {};
+		DartMinHash(std::mt19937_64& rng, uint64_t k) : k(k), T(rng), D(rng, ceil(k*log(k) + 2*k)) {};
 
-        vector<pair<uint64_t, double>> operator()(const vector<pair<uint64_t, double>>& x) {
+        std::vector<std::pair<uint64_t, double>> operator()(const std::vector<std::pair<uint64_t, double>>& x) {
             bool all_minhashed = false;
             double theta = 1.0;
-            vector<pair<uint64_t, double>> minhashes(k, {0, numeric_limits<double>::max()});
+            std::vector<std::pair<uint64_t, double>> minhashes(k, {0, std::numeric_limits<double>::max()});
             while(!all_minhashed) {
-                vector<bool> minhashed(k, false);
+                std::vector<bool> minhashed(k, false);
                 auto darts = D(x, theta);
                 // Place darts into buckets
                 for(auto& dart : darts) {
@@ -52,8 +50,8 @@ class DartMinHash {
             return minhashes;
         }
 
-        vector<bool> onebit_minhash(const vector<pair<uint64_t, double>>& x) { 
-            vector<bool> sketch(k, false);
+        std::vector<bool> onebit_minhash(const std::vector<std::pair<uint64_t, double>>& x) { 
+            std::vector<bool> sketch(k, false);
             auto minhashes = (*this)(x);
             for(uint64_t i = 0; i < k; i++) {
                 sketch[i] = ((minhashes[i].first & 1ull) == 1ull); // use first bit of MinHash id  
