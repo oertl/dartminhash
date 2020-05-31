@@ -3,8 +3,8 @@
 //# All rights reserved.           #
 //##################################
 
-#ifndef _BIT_STREAM_RANDOM_HPP_
-#define _BIT_STREAM_RANDOM_HPP_
+#ifndef _DMH_BIT_STREAM_RANDOM_HPP_
+#define _DMH_BIT_STREAM_RANDOM_HPP_
 
 #include "exponential_distribution.hpp"
 
@@ -154,4 +154,4 @@ public:
 template<typename R> const uint32_t BitStream<R>:: FNV_OFFSET = 0x811c9dc5;
 template<typename R> const uint32_t BitStream<R>:: FNV_PRIME = (1 << 24) + (1 << 8) + 0x93;
 
-#endif // _BIT_STREAM_RANDOM_HPP_
+#endif // _DMH_BIT_STREAM_RANDOM_HPP_

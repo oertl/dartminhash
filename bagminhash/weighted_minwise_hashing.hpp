@@ -3,8 +3,8 @@
 //# All rights reserved.           #
 //##################################
 
-#ifndef _WEIGHTED_MINWISE_HASHING_HPP_
-#define _WEIGHTED_MINWISE_HASHING_HPP_
+#ifndef _DMH_WEIGHTED_MINWISE_HASHING_HPP_
+#define _DMH_WEIGHTED_MINWISE_HASHING_HPP_
 
 #include "bitstream_random.hpp"
 
@@ -645,4 +645,4 @@ WeightedHashResult zero_bit_consistent_weighted_sampling(const std::vector<std::
     return result;
 }
 
-#endif // _WEIGHTED_MINWISE_HASHING_HPP_
+#endif // _DMH_WEIGHTED_MINWISE_HASHING_HPP_
